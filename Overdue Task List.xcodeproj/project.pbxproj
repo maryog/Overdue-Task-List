@@ -21,6 +21,11 @@
 		C509C6E218FE8B8900057BCA /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C509C6C418FE8B8900057BCA /* UIKit.framework */; };
 		C509C6EA18FE8B8900057BCA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C509C6E818FE8B8900057BCA /* InfoPlist.strings */; };
 		C509C6EC18FE8B8900057BCA /* Overdue_Task_ListTests.m in Sources */ = {isa = PBXBuildFile; fileRef = C509C6EB18FE8B8900057BCA /* Overdue_Task_ListTests.m */; };
+		C509C6F718FE8E5900057BCA /* OBJAddTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C509C6F618FE8E5900057BCA /* OBJAddTaskViewController.m */; };
+		C509C6FA18FE911000057BCA /* OBJDetailTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C509C6F918FE911000057BCA /* OBJDetailTaskViewController.m */; };
+		C509C6FD18FE92F200057BCA /* OBJEditTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C509C6FC18FE92F200057BCA /* OBJEditTaskViewController.m */; };
+		C509C70118FE96E300057BCA /* OBJTask.m in Sources */ = {isa = PBXBuildFile; fileRef = C509C70018FE96E300057BCA /* OBJTask.m */; };
+		C509C70418FE9AAA00057BCA /* TaskData.m in Sources */ = {isa = PBXBuildFile; fileRef = C509C70318FE9AAA00057BCA /* TaskData.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +58,16 @@
 		C509C6E718FE8B8900057BCA /* Overdue Task ListTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Overdue Task ListTests-Info.plist"; sourceTree = "<group>"; };
 		C509C6E918FE8B8900057BCA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C509C6EB18FE8B8900057BCA /* Overdue_Task_ListTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Overdue_Task_ListTests.m; sourceTree = "<group>"; };
+		C509C6F518FE8E5900057BCA /* OBJAddTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBJAddTaskViewController.h; sourceTree = "<group>"; };
+		C509C6F618FE8E5900057BCA /* OBJAddTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBJAddTaskViewController.m; sourceTree = "<group>"; };
+		C509C6F818FE911000057BCA /* OBJDetailTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBJDetailTaskViewController.h; sourceTree = "<group>"; };
+		C509C6F918FE911000057BCA /* OBJDetailTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBJDetailTaskViewController.m; sourceTree = "<group>"; };
+		C509C6FB18FE92F200057BCA /* OBJEditTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBJEditTaskViewController.h; sourceTree = "<group>"; };
+		C509C6FC18FE92F200057BCA /* OBJEditTaskViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBJEditTaskViewController.m; sourceTree = "<group>"; };
+		C509C6FF18FE96E300057BCA /* OBJTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBJTask.h; sourceTree = "<group>"; };
+		C509C70018FE96E300057BCA /* OBJTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBJTask.m; sourceTree = "<group>"; };
+		C509C70218FE9AAA00057BCA /* TaskData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskData.h; sourceTree = "<group>"; };
+		C509C70318FE9AAA00057BCA /* TaskData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskData.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,9 +127,16 @@
 		C509C6C618FE8B8900057BCA /* Overdue Task List */ = {
 			isa = PBXGroup;
 			children = (
+				C509C6FE18FE96C000057BCA /* model */,
 				C509C6CF18FE8B8900057BCA /* OBJAppDelegate.h */,
 				C509C6D018FE8B8900057BCA /* OBJAppDelegate.m */,
 				C509C6D218FE8B8900057BCA /* Main.storyboard */,
+				C509C6FB18FE92F200057BCA /* OBJEditTaskViewController.h */,
+				C509C6FC18FE92F200057BCA /* OBJEditTaskViewController.m */,
+				C509C6F818FE911000057BCA /* OBJDetailTaskViewController.h */,
+				C509C6F918FE911000057BCA /* OBJDetailTaskViewController.m */,
+				C509C6F518FE8E5900057BCA /* OBJAddTaskViewController.h */,
+				C509C6F618FE8E5900057BCA /* OBJAddTaskViewController.m */,
 				C509C6D518FE8B8900057BCA /* OBJViewController.h */,
 				C509C6D618FE8B8900057BCA /* OBJViewController.m */,
 				C509C6D818FE8B8900057BCA /* Images.xcassets */,
@@ -130,6 +152,8 @@
 				C509C6C918FE8B8900057BCA /* InfoPlist.strings */,
 				C509C6CC18FE8B8900057BCA /* main.m */,
 				C509C6CE18FE8B8900057BCA /* Overdue Task List-Prefix.pch */,
+				C509C70218FE9AAA00057BCA /* TaskData.h */,
+				C509C70318FE9AAA00057BCA /* TaskData.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -150,6 +174,15 @@
 				C509C6E818FE8B8900057BCA /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C509C6FE18FE96C000057BCA /* model */ = {
+			isa = PBXGroup;
+			children = (
+				C509C6FF18FE96E300057BCA /* OBJTask.h */,
+				C509C70018FE96E300057BCA /* OBJTask.m */,
+			);
+			name = model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,8 +284,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C509C6D718FE8B8900057BCA /* OBJViewController.m in Sources */,
+				C509C6FD18FE92F200057BCA /* OBJEditTaskViewController.m in Sources */,
+				C509C70418FE9AAA00057BCA /* TaskData.m in Sources */,
+				C509C70118FE96E300057BCA /* OBJTask.m in Sources */,
+				C509C6FA18FE911000057BCA /* OBJDetailTaskViewController.m in Sources */,
 				C509C6D118FE8B8900057BCA /* OBJAppDelegate.m in Sources */,
 				C509C6CD18FE8B8900057BCA /* main.m in Sources */,
+				C509C6F718FE8E5900057BCA /* OBJAddTaskViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
