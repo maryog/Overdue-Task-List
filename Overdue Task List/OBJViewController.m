@@ -23,34 +23,15 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    //self.tableView.dataSource = self;
-    //self.tableView.delegate = self;
-    
-//    NSArray *tasks = [TaskData someTasks];
-//    for (NSDictionary *dictionary in tasks) {
-//        OBJTask *task = [[OBJTask alloc] initWithData:dictionary];
-//        NSLog(@"%@",task.title);
-//    }
-    
     self.taskObjects = [[[NSUserDefaults standardUserDefaults] objectForKey:TASKS_LIST] mutableCopy];
     self.tableView.backgroundColor = [UIColor lightGrayColor];
-    //[self updateSectionTaskDictionaries];
+    [self updateSectionTaskDictionaries];
     
-//    [self.taskObjects removeAllObjects];
-//    [[NSUserDefaults standardUserDefaults] setObject:self.taskObjects forKey:TASKS_LIST];
-//    [[NSUserDefaults standardUserDefaults] synchronize];
-
 
 //    [self.taskObjects removeAllObjects];
 //    [[NSUserDefaults standardUserDefaults] removeObjectForKey:TASKS_LIST];
 //    [[NSUserDefaults standardUserDefaults] synchronize];
-//
-
     
-//    NSLog(@"%i",[self.taskObjectsOverdue count]);
-//    NSLog(@"%i",[self.taskObjectsNotDue count]);
-//    NSLog(@"%i",[self.taskObjectsCompleted count]);
-//    NSLog(@"%@",self.taskObjects);
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,7 +66,7 @@
         if ([segue.destinationViewController isKindOfClass:[OBJDetailTaskViewController class]]) {
             OBJDetailTaskViewController *detailVC = segue.destinationViewController;
             NSIndexPath *path = sender;
-            if (path.section == 3)
+            if (path.section == 0)
                 detailVC.taskObject = [self propertyListToTaskObject:self.taskObjectsOverdue[path.row]];
             else if (path.section == 1)
                 detailVC.taskObject = [self propertyListToTaskObject:self.taskObjectsNotDue[path.row]];
@@ -104,13 +85,14 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     self.taskObjects = [[[NSUserDefaults standardUserDefaults] objectForKey:TASKS_LIST] mutableCopy];
+    [self updateSectionTaskDictionaries];
     
     static NSString *cellIdentifier = @"TaskCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     if (indexPath.section == 0) {
-        OBJTask *taskObj = [self propertyListToTaskObject:self.taskObjects[indexPath.row]];
+        OBJTask *taskObj = [self propertyListToTaskObject:self.taskObjectsOverdue[indexPath.row]];
         cell.textLabel.text = taskObj.title;
     
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -121,20 +103,57 @@
         [self updateCellColour:taskObj andCell:cell];
     }
     
+    else if (indexPath.section == 1) {
+        OBJTask *taskObj = [self propertyListToTaskObject:self.taskObjectsNotDue[indexPath.row]];
+        cell.textLabel.text = taskObj.title;
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
+        
+        cell.detailTextLabel.text = [NSString stringWithFormat:@("%@"),[dateFormatter stringFromDate:taskObj.date]];
+        
+        [self updateCellColour:taskObj andCell:cell];
+    }
+    
+    else if (indexPath.section == 2) {
+        OBJTask *taskObj = [self propertyListToTaskObject:self.taskObjectsCompleted[indexPath.row]];
+        cell.textLabel.text = taskObj.title;
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"YYYY-MM-dd HH:mm"];
+        
+        cell.detailTextLabel.text = [NSString stringWithFormat:@("%@"),[dateFormatter stringFromDate:taskObj.date]];
+        
+        [self updateCellColour:taskObj andCell:cell];
+    }
+
+
+    
     return cell;
 }
 
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == 0) return @"Overdues";
+    else if (section == 1) return @"To-dos";
+    else return @"Completed";
+}
+
+-(NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    return @" ";
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 1;
+    return 3;
 }
 
 
 -(NSInteger) tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if (section == 0) return [self.taskObjects count];
+    if (section == 0) return [self.taskObjectsOverdue count];
     else if (section == 1) return [self.taskObjectsNotDue count];
     return [self.taskObjectsCompleted count];
 }
@@ -145,21 +164,42 @@
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
     
     if (indexPath.section == 0) {
-        OBJTask *task = [[OBJTask alloc] initWithData:self.taskObjects[indexPath.row]];
+        OBJTask *task = [[OBJTask alloc] initWithData:self.taskObjectsOverdue[indexPath.row]];
         
         task.completed = !task.completed;
         [self updateCellColour:task andCell:cell];
         
-        [self.taskObjects removeObjectAtIndex:indexPath.row];
-        [self.taskObjects insertObject:[self taskObjectToPropertyList:task] atIndex:indexPath.row];
+        [self.taskObjectsOverdue removeObjectAtIndex:indexPath.row];
+        [self.taskObjectsOverdue insertObject:[self taskObjectToPropertyList:task] atIndex:indexPath.row];
     }
     
-    //[self updateTasksBySection];
+    else if (indexPath.section == 1) {
+        OBJTask *task = [[OBJTask alloc] initWithData:self.taskObjectsNotDue[indexPath.row]];
+        
+        task.completed = !task.completed;
+        [self updateCellColour:task andCell:cell];
+        
+        [self.taskObjectsNotDue removeObjectAtIndex:indexPath.row];
+        [self.taskObjectsNotDue insertObject:[self taskObjectToPropertyList:task] atIndex:indexPath.row];
+    }
+    
+    else if (indexPath.section == 2) {
+        OBJTask *task = [[OBJTask alloc] initWithData:self.taskObjectsCompleted[indexPath.row]];
+        
+        task.completed = !task.completed;
+        [self updateCellColour:task andCell:cell];
+        
+        [self.taskObjectsCompleted removeObjectAtIndex:indexPath.row];
+        [self.taskObjectsCompleted insertObject:[self taskObjectToPropertyList:task] atIndex:indexPath.row];
+    }
+
+    
+    [self updateTasksBySection];
         
     [[NSUserDefaults standardUserDefaults] setObject:self.taskObjects forKey:TASKS_LIST];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    //[self updateSectionTaskDictionaries];
+    [self updateSectionTaskDictionaries];
     [self.tableView reloadData];
 
 }
@@ -172,8 +212,14 @@
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [self.taskObjects removeObjectAtIndex:indexPath.row];
+        if (indexPath.section == 0)
+            [self.taskObjectsOverdue removeObjectAtIndex:indexPath.row];
+        else if (indexPath.section == 1)
+            [self.taskObjectsNotDue removeObjectAtIndex:indexPath.row];
+        else if (indexPath.section == 2)
+            [self.taskObjectsCompleted removeObjectAtIndex:indexPath.row];
         
+        [self updateTasksBySection];
         [[NSUserDefaults standardUserDefaults] setObject:self.taskObjects forKey:TASKS_LIST];
         [[NSUserDefaults standardUserDefaults] synchronize];
         //[self updateSectionTaskDictionaries];
@@ -190,11 +236,20 @@
 -(void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
 {
     if (sourceIndexPath.section == destinationIndexPath.section) {
-        [self swapDataInArray:self.taskObjects atFirstIndex:sourceIndexPath.row atSecondIndex:destinationIndexPath.row];
+        if (sourceIndexPath.section == 0)
+            [self swapDataInArray:self.taskObjectsOverdue atFirstIndex:sourceIndexPath.row atSecondIndex:destinationIndexPath.row];
+        else if (sourceIndexPath.section == 1)
+            [self swapDataInArray:self.taskObjectsNotDue atFirstIndex:sourceIndexPath.row atSecondIndex:destinationIndexPath.row];
+        else if (sourceIndexPath.section == 2)
+            [self swapDataInArray:self.taskObjectsCompleted atFirstIndex:sourceIndexPath.row atSecondIndex:destinationIndexPath.row];
     
-        [self saveTasks:self.taskObjects];
+        //[self saveTasks:self.taskObjects];
         //[self updateSectionTaskDictionaries];
     }
+    
+    [self updateTasksBySection];
+    [[NSUserDefaults standardUserDefaults] setObject:self.taskObjects forKey:TASKS_LIST];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
     //[self.tableView reloadData];
 }
@@ -218,7 +273,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:self.taskObjects forKey:TASKS_LIST];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
-    //[self updateSectionTaskDictionaries];
+    [self updateSectionTaskDictionaries];
     
     [self.tableView reloadData];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -345,17 +400,28 @@
 
 #pragma mark - Edit Delegate methods
 
--(void)saveEdittedTask:(NSMutableArray *)edittedTasks andTask:(OBJTask *)taskObject atPath:(int)path
+-(void)saveEdittedTask:(NSMutableArray *)edittedTasks andTask:(OBJTask *)taskObject atPath:(NSIndexPath *)path
 {
     NSDictionary *dictionary = [self taskObjectToPropertyList:taskObject];
-    [edittedTasks removeObjectAtIndex:path];
-    [edittedTasks insertObject:dictionary atIndex:path];
-    //edittedTasks[path] = dictionary;
     
-    [self saveTasks:edittedTasks];
+    if (path.section == 0) {
+        [self.taskObjectsOverdue removeObjectAtIndex:path.row];
+        [self.taskObjectsOverdue insertObject:dictionary atIndex:path.row];
+    }
+    else if (path.section == 1) {
+        [self.taskObjectsNotDue removeObjectAtIndex:path.row];
+        [self.taskObjectsNotDue insertObject:dictionary atIndex:path.row];
+    }
+    else if (path.section == 2) {
+        [self.taskObjectsCompleted removeObjectAtIndex:path.row];
+        [self.taskObjectsCompleted insertObject:dictionary atIndex:path.row];
+    }
+    
+    [self updateTasksBySection];
+    //[self saveTasks:edittedTasks];
     
     
-    [[NSUserDefaults standardUserDefaults] setObject:edittedTasks forKey:TASKS_LIST];
+    [[NSUserDefaults standardUserDefaults] setObject:self.taskObjects forKey:TASKS_LIST];
     [[NSUserDefaults standardUserDefaults] synchronize];
     
     self.taskObjects = [[[NSUserDefaults standardUserDefaults] objectForKey:TASKS_LIST] mutableCopy];

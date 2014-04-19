@@ -12,7 +12,7 @@
 @protocol OBJDetailTaskViewControllerDelegate <NSObject>
 
 @required
--(void)saveEdittedTask:(NSMutableArray *)edittedTask andTask:(OBJTask *)taskObject atPath:(int)path;
+-(void)saveEdittedTask:(NSMutableArray *)edittedTask andTask:(OBJTask *)taskObject atPath:(NSIndexPath *)path;
 -(void)refreshSectionTasks;
 
 @end

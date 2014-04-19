@@ -82,8 +82,8 @@
     NSMutableArray *taskObjects = [[[NSUserDefaults standardUserDefaults] objectForKey:TASKS_LIST] mutableCopy];
     
     
-    [self.delegate saveEdittedTask:taskObjects andTask:edittedTask atPath:self.path.row];
-    //[self.delegate refreshSectionTasks];
+    [self.delegate saveEdittedTask:taskObjects andTask:edittedTask atPath:self.path];
+    [self.delegate refreshSectionTasks];
     
     [self.navigationController popViewControllerAnimated:YES];
 }
